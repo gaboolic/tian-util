@@ -3,6 +3,8 @@ package tk.gbl.util.http;
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.HttpMethod;
 import org.apache.commons.httpclient.methods.GetMethod;
+import org.apache.commons.httpclient.methods.PostMethod;
+import org.apache.commons.httpclient.methods.StringRequestEntity;
 
 import java.io.IOException;
 import java.lang.reflect.Field;
@@ -22,28 +24,49 @@ public class HttpUtil {
     return method.getResponseBodyAsString();
   }
 
+  public static String get(String url, String param) throws IOException {
+    return get(url + "?" + param);
+  }
+
   public static String get(String url, Map<String, Object> map) throws IOException {
     String param = genParam(map);
-    HttpMethod method = new GetMethod(url + "?" + param);
-    HttpClient client = new HttpClient();
-    client.executeMethod(method);
-    return method.getResponseBodyAsString();
+    return get(url, param);
   }
 
   public static String get(String url, Object obj) throws IOException, IllegalAccessException {
     String param = genParam(obj);
-    HttpMethod method = new GetMethod(url + "?" + param);
+    return get(url, param);
+  }
+
+  public static String post(String url, String body, String contentType, String charset) throws IOException {
+    PostMethod method = new PostMethod(url);
+    method.setRequestEntity(new StringRequestEntity(body, contentType, charset));
+
     HttpClient client = new HttpClient();
     client.executeMethod(method);
     return method.getResponseBodyAsString();
   }
 
+  public static String post(String url, String body, String contentType) throws IOException {
+    return post(url, body, contentType, "utf-8");
+
+  }
+
+  public static String post(String url, String body) throws IOException {
+    return post(url, body, "application/x-www-form-urlencoded", "utf-8");
+  }
+
+  public static String postJson(String url, String body) throws IOException {
+    return post(url, body, "application/json", "utf-8");
+  }
+
+
   private static String genParam(Object obj) throws IllegalAccessException {
-    if(obj == null) {
+    if (obj == null) {
       return "";
     }
     StringBuilder sb = new StringBuilder();
-    for(Field field:obj.getClass().getDeclaredFields()) {
+    for (Field field : obj.getClass().getDeclaredFields()) {
       sb.append(field.getName());
       sb.append("=");
       Object value = field.get(obj);
