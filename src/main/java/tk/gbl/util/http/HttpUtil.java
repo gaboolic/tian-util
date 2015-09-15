@@ -17,6 +17,7 @@ import java.util.Map;
  * @author Tian.Dong
  */
 public class HttpUtil {
+
   public static String get(String url) throws IOException {
     HttpMethod method = new GetMethod(url);
     HttpClient client = new HttpClient();
@@ -38,13 +39,18 @@ public class HttpUtil {
     return get(url, param);
   }
 
-  public static String post(String url, String body, String contentType, String charset) throws IOException {
+  public static String post(String url, String body, String contentType, String charset, String cookie) throws IOException {
     PostMethod method = new PostMethod(url);
+    method.setRequestHeader("Cookie", cookie);
     method.setRequestEntity(new StringRequestEntity(body, contentType, charset));
 
     HttpClient client = new HttpClient();
     client.executeMethod(method);
     return method.getResponseBodyAsString();
+  }
+
+  public static String post(String url, String body, String contentType, String charset) throws IOException {
+    return post(url, body, contentType, charset, null);
   }
 
   public static String post(String url, String body, String contentType) throws IOException {
@@ -54,6 +60,10 @@ public class HttpUtil {
 
   public static String post(String url, String body) throws IOException {
     return post(url, body, "application/x-www-form-urlencoded", "utf-8");
+  }
+
+  public static String postWithCookie(String url, String body, String cookie) throws IOException {
+    return post(url, body, "application/x-www-form-urlencoded", "utf-8", cookie);
   }
 
   public static String postJson(String url, String body) throws IOException {
