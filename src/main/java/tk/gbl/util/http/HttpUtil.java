@@ -18,9 +18,15 @@ import java.util.Map;
  */
 public class HttpUtil {
 
+  public static String get(GetMethod method) throws IOException {
+    HttpClient client = HttpClientUtil.getHttpClient();
+    client.executeMethod(method);
+    return method.getResponseBodyAsString();
+  }
+
   public static String get(String url) throws IOException {
     HttpMethod method = new GetMethod(url);
-    HttpClient client = new HttpClient();
+    HttpClient client = HttpClientUtil.getHttpClient();
     client.executeMethod(method);
     return method.getResponseBodyAsString();
   }
@@ -35,7 +41,7 @@ public class HttpUtil {
   }
 
   public static String get(String url, Object obj) throws IOException, IllegalAccessException {
-    String param = ParamUtil.genParam(obj);
+    String param = ParamUtil.genHttpParam(obj);
     return get(url, param);
   }
 
@@ -44,7 +50,7 @@ public class HttpUtil {
     method.setRequestHeader("Cookie", cookie);
     method.setRequestEntity(new StringRequestEntity(body, contentType, charset));
 
-    HttpClient client = new HttpClient();
+    HttpClient client = HttpClientUtil.getHttpClient();
     client.executeMethod(method);
     return method.getResponseBodyAsString();
   }

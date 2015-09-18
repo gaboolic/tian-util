@@ -21,8 +21,8 @@ public class HttpUtilTest {
     Element ul = htmlDoc.getElementById("thread_list");
 
 //    System.out.println(ul);
-    ul.children().forEach(
-        o->System.out.println(o)
-    );
+//    ul.children().forEach(
+//        o->System.out.println(o)
+//    );
   }
 }
