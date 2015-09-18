@@ -45,6 +45,12 @@ public class HttpUtil {
     return get(url, param);
   }
 
+  public static String post(PostMethod method) throws IOException {
+    HttpClient client = HttpClientUtil.getHttpClient();
+    client.executeMethod(method);
+    return method.getResponseBodyAsString();
+  }
+
   public static String post(String url, String body, String contentType, String charset, String cookie) throws IOException {
     PostMethod method = new PostMethod(url);
     method.setRequestHeader("Cookie", cookie);
