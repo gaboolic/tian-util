@@ -20,4 +20,22 @@ public class HttpMethodUtil {
     return method;
   }
 
+  public static PostMethod getJsonPostMethod(String url,String body){
+    PostMethod method = new PostMethod(url);
+    try {
+      method.setRequestEntity(new StringRequestEntity(body, "application/json", "utf-8"));
+    } catch (UnsupportedEncodingException e) {
+      e.printStackTrace();
+    }
+    return method;
+  }
+  public static PostMethod getFormPostMethod(String url,String body) {
+    PostMethod method = new PostMethod(url);
+    try {
+      method.setRequestEntity(new StringRequestEntity(body, "application/x-www-form-urlencoded", "utf-8"));
+    } catch (UnsupportedEncodingException e) {
+      e.printStackTrace();
+    }
+    return method;
+  }
 }
