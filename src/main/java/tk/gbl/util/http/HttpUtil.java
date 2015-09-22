@@ -25,10 +25,14 @@ public class HttpUtil {
   }
 
   public static String get(String url) throws IOException {
-    HttpMethod method = new GetMethod(url);
-    HttpClient client = HttpClientUtil.getHttpClient();
-    client.executeMethod(method);
-    return method.getResponseBodyAsString();
+    GetMethod method = new GetMethod(url);
+    return get(method);
+  }
+
+  public static String getWithCookie(String url, String cookie) throws IOException {
+    GetMethod method = new GetMethod(url);
+    method.setRequestHeader("Cookie", cookie);
+    return get(method);
   }
 
   public static String get(String url, String param) throws IOException {
@@ -55,10 +59,7 @@ public class HttpUtil {
     PostMethod method = new PostMethod(url);
     method.setRequestHeader("Cookie", cookie);
     method.setRequestEntity(new StringRequestEntity(body, contentType, charset));
-
-    HttpClient client = HttpClientUtil.getHttpClient();
-    client.executeMethod(method);
-    return method.getResponseBodyAsString();
+    return post(method);
   }
 
   public static String post(String url, String body, String contentType, String charset) throws IOException {
