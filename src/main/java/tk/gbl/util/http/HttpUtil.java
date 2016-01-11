@@ -24,19 +24,17 @@ public class HttpUtil {
     return method.getResponseBodyAsString();
   }
 
-  public static String get(String url) throws IOException {
-    GetMethod method = new GetMethod(url);
-    return get(method);
-  }
-
-  public static String getWithCookie(String url, String cookie) throws IOException {
+  public static String get(String url, String param, String cookie) throws IOException {
+    if (param != null && !param.equals("")) {
+      url = url + "?" + param;
+    }
     GetMethod method = new GetMethod(url);
     method.setRequestHeader("Cookie", cookie);
     return get(method);
   }
 
   public static String get(String url, String param) throws IOException {
-    return get(url + "?" + param);
+    return get(url, param, null);
   }
 
   public static String get(String url, Map<String, Object> map) throws IOException {
@@ -48,6 +46,19 @@ public class HttpUtil {
     String param = ParamUtil.genHttpParam(obj);
     return get(url, param);
   }
+
+  public static String get(String url) throws IOException {
+    return get(url, null, null);
+  }
+
+  public static String getWithCookie(String url, String param, String cookie) throws IOException {
+    return get(url, param, cookie);
+  }
+
+  public static String getWithCookie(String url, String cookie) throws IOException {
+    return getWithCookie(url, null, cookie);
+  }
+
 
   public static String post(PostMethod method) throws IOException {
     HttpClient client = HttpClientUtil.getHttpClient();
