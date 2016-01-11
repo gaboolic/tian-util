@@ -12,7 +12,7 @@ import java.io.IOException;
  * @author Tian.Dong
  */
 public class ImageTest {
-  @Test
+  //@Test
   public void test() throws IOException {
     int[][] img = Binary.deal(new File("C:\\Users\\tian\\Desktop\\1-首页.png"));
     ArrayToImage.createImage(img,new File("C:\\Users\\tian\\Desktop\\1-首页222.png"));

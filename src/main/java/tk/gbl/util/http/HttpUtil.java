@@ -56,9 +56,12 @@ public class HttpUtil {
   }
 
   public static String post(String url, String body, String contentType, String charset, String cookie) throws IOException {
+    if (cookie != null) {
+      cookie = cookie.trim();
+    }
     PostMethod method = new PostMethod(url);
     method.setRequestHeader("Cookie", cookie);
-    method.setRequestHeader("User-Agent","Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/45.0.2454.85 Safari/537.36");
+    method.setRequestHeader("User-Agent", "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/45.0.2454.85 Safari/537.36");
     //method.setRequestHeader("X-Requested-With","ShockwaveFlash/18.0.0.232");
     method.setRequestEntity(new StringRequestEntity(body, contentType, charset));
     return post(method);
@@ -70,7 +73,6 @@ public class HttpUtil {
 
   public static String post(String url, String body, String contentType) throws IOException {
     return post(url, body, contentType, "utf-8");
-
   }
 
   public static String post(String url, String body) throws IOException {

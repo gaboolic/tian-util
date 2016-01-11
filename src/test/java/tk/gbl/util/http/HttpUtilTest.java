@@ -25,4 +25,15 @@ public class HttpUtilTest {
 //        o->System.out.println(o)
 //    );
   }
+
+  //@Test
+  public void testPost() throws IOException {
+    HttpUtil.post("http://localhost","body");
+  }
+
+  //@Test
+  public void testPostWithCookie() throws IOException {
+    HttpUtil.post("http://localhost","body","cookie");
+
+  }
 }
