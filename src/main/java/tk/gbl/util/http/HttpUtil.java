@@ -90,6 +90,11 @@ public class HttpUtil {
     return post(url, body, "application/x-www-form-urlencoded", "utf-8");
   }
 
+  public static String post(String url, Object obj) throws IOException, IllegalAccessException {
+    String param = ParamUtil.genHttpParam(obj);
+    return post(url, param);
+  }
+
   public static String post(String url, Map<String, Object> map) throws IOException {
     String param = ParamUtil.genParam(map);
     return post(url, param);
