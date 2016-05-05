@@ -54,6 +54,7 @@ public class FmUtil {
       template.process(obj, writer);
       return writer.toString();
     } catch (Exception e) {
+      e.printStackTrace();
       LoggerUtil.error("Freemarker.getTemplateStr", e);
     }
     return null;
