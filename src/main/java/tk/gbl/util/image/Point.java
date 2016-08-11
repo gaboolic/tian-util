@@ -11,13 +11,26 @@ public class Point {
   int h = 0;
   int w = 0;
 
-  public Point(int w, int h) {
-    if (w > 0) {
-      this.w = w;
-    }
+  public Point(int h, int w) {
     if (h > 0) {
       this.h = h;
     }
+    if (w > 0) {
+      this.w = w;
+    }
+  }
+
+  @Override
+  public int hashCode() {
+    return Integer.hashCode(h) * 37 + w;
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (!(o instanceof Point))
+      return false;
+    Point p = (Point) o;
+    return this.h == p.h && this.w == p.w;
   }
 
   public int getH() {
@@ -50,37 +63,5 @@ public class Point {
 
   public void right() {
     this.w++;
-  }
-
-  @Override
-  public String toString() {
-    return "Point{" +
-        "h=" + h +
-        ", w=" + w +
-        '}';
-  }
-
-  @Override
-  public boolean equals(Object o) {
-    if (this == o)
-      return true;
-    if (o == null || getClass() != o.getClass())
-      return false;
-
-    Point point = (Point) o;
-
-    if (h != point.h)
-      return false;
-    if (w != point.w)
-      return false;
-
-    return true;
-  }
-
-  @Override
-  public int hashCode() {
-    int result = h;
-    result = 31 * result + w;
-    return result;
   }
 }

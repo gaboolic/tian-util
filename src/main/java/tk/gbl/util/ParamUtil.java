@@ -23,25 +23,26 @@ public class ParamUtil {
       sb.append("=");
       Object value = field.get(obj);
       if (value != null) {
-        sb.append(URLEncoder.encode(value.toString(),"utf-8"));
+        sb.append(URLEncoder.encode(value.toString(), "utf-8"));
       }
       sb.append("&");
     }
-    sb.deleteCharAt(sb.length()-1);
+    sb.deleteCharAt(sb.length() - 1);
     return sb.toString();
   }
 
-  public static String genParam(Map<String, Object> map) {
+  public static String genParam(Map<String, Object> map) throws UnsupportedEncodingException {
     StringBuilder sb = new StringBuilder();
     for (Map.Entry entry : map.entrySet()) {
       sb.append(entry.getKey());
       sb.append("=");
       Object value = entry.getValue();
       if (value != null) {
-        sb.append(value);
+        sb.append(URLEncoder.encode(value.toString(), "UTF-8"));
       }
       sb.append("&");
     }
+    sb.deleteCharAt(sb.length() - 1);
     return sb.toString();
   }
 }

@@ -8,9 +8,29 @@ package tk.gbl.util.image;
  */
 public class Distance {
 
+  public int distance(int[][] a, Point s, int[][] tem) {
+    int edit = editDistance(a, s, tem);
+    return 0;
+  }
 
+  public int hamDistance(int[][] a, Point s, int[][] b) {
+    int h = a.length < b.length ? a.length : b.length;
+    int w = a[0].length < b[0].length ? a[0].length : b[0].length;
+    int count = 0;
+    for (int i = s.getH(); i < h; i++) {
+      for (int j = s.getW(); j < w; j++) {
+        if (b[i][j] == 0) {
+          continue;
+        }
+        if (a[i][j] != b[i][j]) {
+          count++;
+        }
+      }
+    }
+    return count;
+  }
 
-  public static int hamDistance(int[][] a, int[][] b) {
+  public int hamDistance(int[][] a, int[][] b) {
     int h = a.length < b.length ? a.length : b.length;
     int w = a[0].length < b[0].length ? a[0].length : b[0].length;
     int count = 0;
@@ -24,10 +44,46 @@ public class Distance {
     return count;
   }
 
+  public int editDistance(int[][] a, Point s, int[][] tem) {
+    int n = min(s.getH() + tem.length, a.length);
+    int m = min(s.getW() + tem[0].length, a[0].length);
+    int[] a1 = new int[n * m];
+    int[] b1 = new int[tem.length * tem[0].length];
 
+    for (int i = s.getH(); i < n; i++) {
+      for (int j = s.getW(); j < m; j++) {
+        a1[i * j] = a[i][j];
+      }
+    }
+    for (int i = 0; i < tem.length; i++) {
+      for (int j = 0; j < tem[i].length; j++) {
+        b1[i * j] = tem[i][j];
+      }
+    }
+    return editDistance(a1, b1);
+  }
 
+  public int editDistance(int[][] a, Point s, Point e, int[][] tem, Point ts, Point te) {
+    int n = e.getH() - s.getH();
+    int m = e.getW() - s.getW();
+    int[] a1 = new int[n * m + 10];
+    int[] b1 = new int[(te.getH() - ts.getH()) * (te.getW() - ts.getW())];
 
-  public static int editDistance(int[][] a, int[][] b) {
+    for (int i = 0; i < e.getH() - s.getH(); i++) {
+      for (int j = 0; j < e.getW() - s.getW(); j++) {
+        a1[i * j] = a[i][j];
+      }
+    }
+    for (int i = 0; i < te.getH() - ts.getH(); i++) {
+      for (int j = 0; j < te.getW() - ts.getW(); j++) {
+        b1[i * j] = tem[i][j];
+      }
+    }
+    return editDistance(a1, b1);
+  }
+
+  public int editDistance(int[][] a, int[][] b) {
+    //Cut.cut(a);Cut.cut(b);
     int[] a1 = new int[a.length * a[0].length];
     int[] b1 = new int[b.length * b[0].length];
 
@@ -44,7 +100,7 @@ public class Distance {
     }
     return editDistance(a1, b1);
   }
-  public static int editDistance(int[][] a, int[] tmg) {
+  public int editDistance(int[][] a, int[] tmg) {
     int[] a1 = new int[a.length * a[0].length];
     for (int h = 0; h < a.length; h++) {
       for (int w = 0; w < a[h].length; w++) {
@@ -55,7 +111,7 @@ public class Distance {
     return editDistance(a1, tmg);
   }
 
-  public static int editDistance(int[] a, int[] b) {
+  public int editDistance(int[] a, int[] b) {
     int n = a.length;
     int m = b.length;
     if (n == 0) {
@@ -88,7 +144,7 @@ public class Distance {
     return d[n][m];
   }
 
-  public static int hamDistance(int[] a, int[] b) {
+  public int hamDistance(int[] a, int[] b) {
     int count = 0;
     for (int i = 0; i < min(a.length, b.length); i++) {
       if (a[i] != b[i]) {
@@ -98,16 +154,26 @@ public class Distance {
     return count;
   }
 
-  private static int min(int a, int b, int c) {
+  private int min(int a, int b, int c) {
     return a < b ?
         (a < c ? a : c)
         :
         (b < c ? b : c);
   }
 
+  static int[] table = {
+      1, 2, 3, 4, 5
+  };
 
+  static int[] table2 = {
+      1, 2, 4, 5, 3
+  };
 
-  private static int min(int a, int b) {
+  public static void main(String[] args) {
+    int c = new Distance().editDistance(table, table2);
+  }
+
+  private int min(int a, int b) {
     return a < b ? a : b;
   }
 
